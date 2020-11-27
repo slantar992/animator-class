@@ -1,4 +1,5 @@
 ﻿
+using System;
 using UnityEngine;
 
 public class PlayerController : MonoBehaviour
@@ -9,71 +10,88 @@ public class PlayerController : MonoBehaviour
 
 	private float HorizontalAxis => Input.GetAxisRaw(HORIZONTAL);
 	private float VerticalAxis => Input.GetAxisRaw(VERTICAL);
-	private bool JumpButton => Input.GetButtonDown(JUMP);
+	private bool JumpButtonDown => Input.GetButtonDown(JUMP);
+	private bool JumpButton => Input.GetButton(JUMP);
+
+	public VerticalMovement verticalMovement;
 
 	public float moveSpeed;
-	public float jumpHeight;
-	public float timeToReachHeight;
-	public float timeToReachFloor;
-	public Transform bottom;
 	public LayerMask floorLayerMask;
+	public Transform field;
+	public Vector2 fieldLimits = new Vector2(5, 5);
 
 	private bool onAir;
-	private Collider[] jumpColliders;
 	private Vector3 velocity;
-	private RaycastHit hit;
-	private float jumpSpeed;
-	private float upwardsGravity;
-	private float downwardsGravity;
+	private Vector3 newPosition;
 	private Vector2 axes;
 
-	private void Start() => CalculateJumpParameters();
-
-	public void CalculateJumpParameters()
+	private void Start()
 	{
-		upwardsGravity = 2 * jumpHeight / Mathf.Pow(timeToReachHeight, 2);
-		downwardsGravity = 2 * jumpHeight / Mathf.Pow(timeToReachFloor, 2);
-		jumpSpeed = upwardsGravity * timeToReachHeight;
+		verticalMovement.RefreshParameters();
+		transform.position = new Vector3(1, 0, 1);
+	}
+
+	private void OnValidate()
+	{
+		verticalMovement.RefreshParameters();
+		if (field != null)
+		{
+			field.eulerAngles = new Vector3(90, 0, 0);
+			field.position = new Vector3(fieldLimits.x * .5f, -0.005f, fieldLimits.y * .5f);
+			field.localScale = new Vector3(fieldLimits.x, fieldLimits.y, 1);
+		}
 	}
 
 	private void Update()
 	{
-		axes = new Vector2(HorizontalAxis, VerticalAxis).normalized;
-		velocity = new Vector3(axes.x * moveSpeed, velocity.y, axes.y * moveSpeed);
+		CalculateHorizontalMovement();
+		TryJump();
+		TryGlide();
+		CalculateNewPosition();
+		TryStopJump();
+		ClampPositionInArea();
 
-		if (!onAir && JumpButton)
+		transform.position = newPosition;
+	}
+
+	private void TryGlide()
+	{
+		Debug.Log(JumpButton);
+		verticalMovement.Glide(onAir && JumpButton);
+	}
+
+	private void CalculateHorizontalMovement() => axes = new Vector2(HorizontalAxis, VerticalAxis).normalized;
+
+	private void TryStopJump()
+	{
+		if (onAir && newPosition.y < 0)
 		{
-			velocity = new Vector3(velocity.x, jumpSpeed, velocity.z);
+			verticalMovement.Stop();
+			onAir = false;
+		}
+	}
+
+	private void TryJump()
+	{
+		if (!onAir && JumpButtonDown)
+		{
+			verticalMovement.Jump();
 			onAir = true;
 		}
+	}
 
-		if (onAir)
-		{
-			if (velocity.y > 0)
-			{
-				velocity = new Vector3(velocity.x, velocity.y - upwardsGravity * Time.deltaTime, velocity.z);
-			}
-			else
-			{
-				velocity = new Vector3(velocity.x, velocity.y - downwardsGravity * Time.deltaTime, velocity.z);
-			}
-		}
+	private void CalculateNewPosition()
+	{
+		verticalMovement.Update();
+		velocity = new Vector3(axes.x * moveSpeed, verticalMovement.Speed, axes.y * moveSpeed);
+		newPosition = transform.position + velocity * Time.deltaTime;
+	}
 
-		transform.position = transform.position + velocity * Time.deltaTime;
-
-		if (onAir)
-		{
-			if (Physics.Raycast(transform.position, Vector3.down, out hit, 1f, floorLayerMask))
-			{
-
-				velocity = new Vector3(velocity.x, 0, velocity.z);
-				transform.position = new Vector3(transform.position.x, hit.point.y + 1, transform.position.z);
-				onAir = false;
-			}
-		}
-		else if (!Physics.Raycast(transform.position, Vector3.down, 1.1f, floorLayerMask))
-		{
-			onAir = true;
-		}
+	private void ClampPositionInArea()
+	{
+		newPosition = new Vector3(
+					Mathf.Clamp(newPosition.x, 0, fieldLimits.x),
+					newPosition.y < 0 ? 0 : newPosition.y,
+					Mathf.Clamp(newPosition.z, 0, fieldLimits.y));
 	}
 }

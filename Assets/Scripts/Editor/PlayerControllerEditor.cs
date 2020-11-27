@@ -15,9 +15,5 @@ public class PlayerControllerEditor : Editor
 	public override void OnInspectorGUI()
 	{
 		DrawDefaultInspector();
-		if (GUILayout.Button("Recalculate Jump Params"))
-		{
-			controller.CalculateJumpParameters();
-		}
 	}
 }
