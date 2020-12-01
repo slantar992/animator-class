@@ -20,7 +20,6 @@ public class PlayerInput
 	{
 		if (Input.anyKey)
 		{
-			Debug.Log("Any Key");
 			return Input.GetAxisRaw(axis);
 		}
 		else

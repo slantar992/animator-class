@@ -178,14 +178,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 95424797156907436, guid: c3b5979cdf315164681df5c9d08153a4, type: 3}
-      propertyPath: m_Avatar
-      value: 
-      objectReference: {fileID: 9000000, guid: 5917c0e93d180a842b61d1ebc62a195c, type: 3}
-    - target: {fileID: 95424797156907436, guid: c3b5979cdf315164681df5c9d08153a4, type: 3}
-      propertyPath: m_Controller
-      value: 
-      objectReference: {fileID: 9100000, guid: 423d7834aded3fa429018c32bdbfaa18, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c3b5979cdf315164681df5c9d08153a4, type: 3}
 --- !u!4 &35537119 stripped
@@ -204,7 +196,6 @@ GameObject:
   - component: {fileID: 310542087}
   - component: {fileID: 310542090}
   - component: {fileID: 310542089}
-  - component: {fileID: 310542088}
   - component: {fileID: 310542091}
   m_Layer: 8
   m_Name: Field
@@ -221,26 +212,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 310542086}
   m_LocalRotation: {x: 0.7071068, y: -0, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: 5, y: -0.005, z: 5}
-  m_LocalScale: {x: 10, y: 10, z: 1}
+  m_LocalPosition: {x: 7.5, y: -25.05, z: 7.5}
+  m_LocalScale: {x: 15, y: 15, z: 50}
   m_Children: []
   m_Father: {fileID: 1299398409}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: -3.72, y: 90, z: -17.16}
---- !u!64 &310542088
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 310542086}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 4
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 10210, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!23 &310542089
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -289,7 +266,7 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 310542086}
-  m_Mesh: {fileID: 10210, guid: 0000000000000000e000000000000000, type: 0}
+  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!114 &310542091
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -302,7 +279,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 74fe5439c674007428cf2ec8776e08cc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  fieldLimits: {x: 10, y: 10}
+  limits: {x: 15, y: 15}
+  height: 50
 --- !u!850595691 &342100805
 LightingSettings:
   m_ObjectHideFlags: 0
@@ -449,13 +427,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 705507993}
-  m_LocalRotation: {x: 0.4129216, y: 0.5740172, z: -0.5740172, w: 0.4129216}
+  m_LocalRotation: {x: 0.4531539, y: 0.4531539, z: -0.28869087, w: 0.71130913}
   m_LocalPosition: {x: 0, y: 3, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 90, y: 3.733, z: -104.808}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 65, y: 65, z: 0}
 --- !u!1 &963194225
 GameObject:
   m_ObjectHideFlags: 0
@@ -467,6 +445,7 @@ GameObject:
   - component: {fileID: 963194228}
   - component: {fileID: 963194227}
   - component: {fileID: 963194226}
+  - component: {fileID: 963194229}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -532,13 +511,31 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 963194225}
-  m_LocalRotation: {x: 0.35297, y: -0, z: -0, w: 0.9356347}
-  m_LocalPosition: {x: 5, y: 9, z: -3}
+  m_LocalRotation: {x: 0.38268358, y: -0, z: -0, w: 0.9238795}
+  m_LocalPosition: {x: 7.5, y: 5, z: -3.9999971}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 1299398409}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 41.338, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 60.398, y: 10, z: 0}
+--- !u!114 &963194229
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 963194225}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cf73bcbef2901b5408bf76167ec56e0c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  field: {fileID: 310542091}
+  target: {fileID: 1471397409}
+  truckOffset: 3
+  targetDistance: 5
+  height: 5
+  smoothing: 0.01
 --- !u!95 &1070477925 stripped
 Animator:
   m_CorrespondingSourceObject: {fileID: 95424797156907436, guid: c3b5979cdf315164681df5c9d08153a4, type: 3}
@@ -571,10 +568,11 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
+  - {fileID: 963194228}
   - {fileID: 310542087}
   - {fileID: 1471397409}
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1471397408
 GameObject:
@@ -601,12 +599,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1471397408}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 1, y: 0, z: 1}
+  m_LocalPosition: {x: 7.5, y: 0, z: 1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 35537119}
   m_Father: {fileID: 1299398409}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1471397410
 MonoBehaviour:
@@ -620,14 +618,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 26012f132c70a5748905c36b7a8e2149, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  field: {fileID: 310542091}
-  verticalMovement:
-    active: 1
-    jumpHeight: 2
-    timeToReachHeight: 0.3
-    timeToReachFloor: 0.27
-    glidingTimeToReachFloor: 1.5
-  horizontalMovement:
-    maxSpeed: 10
-  animator: {fileID: 1070477925}
-  model: {fileID: 35537119}
+  logic:
+    field: {fileID: 310542091}
+    input:
+      Horizontal: Horizontal
+      Vertical: Vertical
+      Jump: Jump
+    verticalMovement:
+      active: 1
+      jumpHeight: 2
+      timeToReachHeight: 0.3
+      timeToReachFloor: 0.27
+      glidingTimeToReachFloor: 3
+    horizontalMovement:
+      maxSpeed: 10
+  animation:
+    animator: {fileID: 1070477925}
+    model: {fileID: 35537119}

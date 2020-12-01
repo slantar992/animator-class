@@ -21,7 +21,7 @@ public class PlayerLogic
 	public void Init()
 	{
 		RefreshInternalParams();
-		Position = new Vector3(1, 0, 1);
+		Position = new Vector3(field.Limits.x * .5f, 0, 1);
 	}
 
 	public void RefreshInternalParams()
