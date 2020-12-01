@@ -15,14 +15,14 @@ public class VerticalMovement
 	private float jumpInitialSpeed;
 	private float upwardsGravity;
 	private float fallingGravity;
-	private float glidingGravity;
-	private State state;
+	private float glidingSpeed;
+	public VerticalState State { get; private set; }
 
 	public void RefreshParameters()
 	{
 		upwardsGravity = CalculateGravity(timeToReachHeight);
 		fallingGravity = CalculateGravity(timeToReachFloor);
-		glidingGravity = CalculateGravity(glidingTimeToReachFloor);
+		glidingSpeed = jumpHeight / glidingTimeToReachFloor;
 		jumpInitialSpeed = upwardsGravity * timeToReachHeight;
 	}
 
@@ -31,19 +31,26 @@ public class VerticalMovement
 		return 2 * jumpHeight / Mathf.Pow(time, 2);
 	}
 
-	public void Jump() => state = State.JumpStart;
-	public void Fall() => state = State.Falling;
-	public void Stop() => state = State.Stop;
+	public void Jump()
+	{
+		if (State == VerticalState.Stop)
+		{
+			State = VerticalState.JumpStart;
+		}
+	}
+
+	public void Fall() => State = VerticalState.Falling;
+	public void Stop() => State = VerticalState.Stop;
 
 	public void Glide(bool active = true)
 	{
-		if (active && state == State.Falling)
+		if (active && State == VerticalState.Falling)
 		{
-			state = State.Gliding;
+			State = VerticalState.Gliding;
 		}
-		else if (!active && state == State.Gliding)
+		else if (!active && State == VerticalState.Gliding)
 		{
-			state = State.Falling;
+			State = VerticalState.Falling;
 		}
 	}
 
@@ -55,32 +62,32 @@ public class VerticalMovement
 
 	private void UpdateState()
 	{
-		switch (state)
+		switch (State)
 		{
-			case State.Stop:
+			case VerticalState.Stop:
 				Speed = 0;
 				break;
-			case State.JumpStart:
+			case VerticalState.JumpStart:
 				Speed = jumpInitialSpeed;
-				state = State.Rising;
+				State = VerticalState.Rising;
 				break;
-			case State.Rising:
+			case VerticalState.Rising:
 				UpdateSpeed(upwardsGravity);
 				if (Speed < 0)
 				{
-					state = State.Falling;
+					State = VerticalState.Falling;
 				}
 				break;
-			case State.Falling:
+			case VerticalState.Falling:
 				UpdateSpeed(fallingGravity);
 				break;
-			case State.Gliding:
-				UpdateSpeed(glidingGravity);
+			case VerticalState.Gliding:
+				Speed = -glidingSpeed;
 				break;
 		}
 	}
 
 	private void UpdateSpeed(float gravity) => Speed -= gravity * Time.deltaTime;
 
-	public enum State { Stop, JumpStart, Rising, Falling, Gliding }
+	public enum VerticalState { Stop, JumpStart, Rising, Falling, Gliding }
 }
