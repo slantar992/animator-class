@@ -20,13 +20,14 @@ public class PlayerAnimation
 
 	public void Init() => animator = model.GetComponent<Animator>();
 
-	public void TriggerJump() => animator.SetTrigger(PARAM_JUMP);
+	public void TriggerJump() => animator?.SetTrigger(PARAM_JUMP);
 
 	public void Update()
 	{
-		if (animator == null || model == null) return;
-		SetAnimatorParams();
+		if (model == null) return;
 		RotateModel();
+		if (animator == null) return;
+		SetAnimatorParams();
 	}
 
 	private void SetAnimatorParams()
