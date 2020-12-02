@@ -30,6 +30,3 @@ sysinfo.txt
 
 # Links in root folder
 /*.lnk
-
-#Custom ignores
-/[Aa]ssets/[Pp]lugins/
