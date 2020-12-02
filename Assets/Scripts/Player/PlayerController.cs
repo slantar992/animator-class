@@ -7,7 +7,11 @@ public class PlayerController : MonoBehaviour
 	[SerializeField] private new PlayerAnimation animation;
 
 	private void Awake() => logic.OnJumpTriggeredEvent += animation.TriggerJump;
-	private void Start() => logic.Init();
+	private void Start()
+	{
+		logic.Init();
+		animation.Init();
+	}
 	private void OnValidate() => logic.RefreshInternalParams();
 
 	private void Update()

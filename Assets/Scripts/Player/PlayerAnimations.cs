@@ -10,13 +10,15 @@ public class PlayerAnimation
 	private const string PARAM_HEIGHT = "Height";
 	private const string PARAM_RUN_SPEED = "RunSpeed";
 
-	[SerializeField] private Animator animator;
 	[SerializeField] private Transform model;
+	private Animator animator;
 
 	public bool Gliding { get; set; }
 	public float Height { get; set; }
 	public float RunSpeed { get; set; }
 	public Vector2 Direction { get; set; }
+
+	public void Init() => animator = model.GetComponent<Animator>();
 
 	public void TriggerJump() => animator.SetTrigger(PARAM_JUMP);
 
