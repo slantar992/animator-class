@@ -26,7 +26,7 @@ sysinfo.txt
 
 # Builds
 *.apk
-*.unitypackage
+#*.unitypackage
 
 # Links in root folder
 /*.lnk
